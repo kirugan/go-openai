@@ -1,3 +1,5 @@
 module github.com/kirugan/go-openai
 
-go 1.18
+go 1.24.2
+
+require github.com/sashabaranov/go-openai v1.38.2
