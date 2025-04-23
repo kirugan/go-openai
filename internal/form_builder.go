@@ -39,7 +39,13 @@ func (fb *DefaultFormBuilder) createFormFile(fieldname string, r io.Reader, file
 		return fmt.Errorf("filename cannot be empty")
 	}
 
-	fieldWriter, err := fb.writer.CreateFormFile(fieldname, filename)
+	h := make(textproto.MIMEHeader)
+	h.Set("Content-Disposition",
+		fmt.Sprintf(`form-data; name="%s"; filename="%s"`,
+			escapeQuotes(fieldname), escapeQuotes(filename)))
+	h.Set("Content-Type", "image/png")
+
+	fieldWriter, err := w.CreatePart(h)
 	if err != nil {
 		return err
 	}
